@@ -13,7 +13,7 @@ int main()
     char* line = NULL;
     size_t length = 0;
     ssize_t read;
-    size_t diff = 0;
+    size_t delta = 0;
 
     size_t left[ARRAY_BUFFER];
     size_t right[ARRAY_BUFFER];
@@ -40,14 +40,14 @@ int main()
     qsort(right, rowIndex, sizeof(size_t), compare);
 
     for(int i = 0;  i < rowIndex; i++) {
-        diff += abs(left[i] - right[i]);
+        delta += abs(left[i] - right[i]);
     }
 
     if (line) {
         free(line);
     }
 
-    printf("Diff is %lu\n", diff);
+    printf("Delta is %lu\n", delta);
 
     return EXIT_SUCCESS;
 }

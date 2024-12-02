@@ -9,7 +9,7 @@ int main()
     char* line = NULL;
     size_t length = 0;
     ssize_t read;
-    size_t diff = 0;
+    size_t delta = 0;
 
     size_t left[ARRAY_BUFFER];
     size_t right[ARRAY_BUFFER];
@@ -35,7 +35,7 @@ int main()
     for(int i = 0;  i < rowIndex; i++) {
         for(int j = 0; j < rowIndex; j++) {
             if (left[i] == right[j]) {
-                diff += left[i];
+                delta += left[i];
             }
         }
     }
@@ -44,7 +44,7 @@ int main()
         free(line);
     }
 
-    printf("Diff is %lu\n", diff);
+    printf("Delta is %lu\n", delta);
 
     return EXIT_SUCCESS;
 }
