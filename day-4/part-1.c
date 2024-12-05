@@ -54,8 +54,6 @@ int main()
             delta += (i+3<rowIndex && j>=3 && match(matrix[i][j],matrix[i+1][j-1],matrix[i+2][j-2],matrix[i+3][j-3])) ? 1 : 0;
             delta += (i>=3 && j+3<strlen(matrix[i]) && match(matrix[i][j],matrix[i-1][j+1],matrix[i-2][j+2],matrix[i-3][j+3])) ? 1 : 0;
        }
-
-       printf("\n");
     }
 
     if (line) {

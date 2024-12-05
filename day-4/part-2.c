@@ -36,18 +36,15 @@ int main()
 
     fclose(filePointer);
 
-    for(int i = 0; i < rowIndex; i++) {
-       for(int j = 0; j < strlen(matrix[i]); j++) {
+    for(int i = 1; i < rowIndex-1; i++) {
+       for(int j = 1; j < strlen(matrix[i])-1; j++) {
             if ('A' != matrix[i][j]) {
                 continue;
             }
 
-            delta += (i>=1 && j>=1 && j+1<strlen(matrix[i]) && i+1<rowIndex && 
-                    match(matrix[i+1][j+1],matrix[i][j],matrix[i-1][j-1]) && 
-                    match(matrix[i+1][j-1],matrix[i][j],matrix[i-1][j+1])) ? 1 : 0;
+            delta += match(matrix[i+1][j+1],matrix[i][j],matrix[i-1][j-1]) && 
+                    match(matrix[i+1][j-1],matrix[i][j],matrix[i-1][j+1]) ? 1 : 0;
        }
-
-       printf("\n");
     }
 
     if (line) {

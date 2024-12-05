@@ -1,5 +1,7 @@
 #pragma once
 
+#define INT_LENGTH 11
+
 typedef struct ll
 {
   void* data;
@@ -56,4 +58,37 @@ void addOrderedLinkedList(LinkedList *linkedList, void *data, int (*comparison)(
     newRow->data = current->data;
     current->data = data;
   }
+}
+
+LinkedList* explodeNumbers(const char *delimiter, char *string, int *parts) {
+    char *start = string, *end = strstr(string, delimiter);
+
+    if (NULL == end) {
+        return NULL;
+    }
+
+    size_t length = strlen(string);
+    LinkedList *data = initLinkedList(), *head = data;
+
+    while (end > string) {
+        int *page = calloc(sizeof(int), 1);
+        char buf[INT_LENGTH];
+        strncpy(buf, start, end-start > INT_LENGTH ? INT_LENGTH:end-start);
+        *page = atoi(buf);
+        data = addToLinkedList(data, page);
+        (*parts)++;
+
+        if (end == start + length) {
+            break;
+        }
+
+        start = end+1;
+        end = strstr(end+1, delimiter);
+            
+        if (NULL == end) {
+            end = start + length;
+        }
+    }
+
+    return head;
 }
