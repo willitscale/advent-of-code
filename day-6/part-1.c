@@ -1,17 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../lib/linkedlist.h"
 
-#define ARRAY_BUFFER 1000
+#define BUFFER 1000
 
 #define UP 0
 #define RIGHT 1
 #define DOWN 2
 #define LEFT 3
 
-char makeMove(char* matrix[], int* row, int* column, int index, char* direction, size_t * delta);
-char moveIndexes(int * row, int * column, char * direction, const char value);
+void move(int*, int*, char, const char);
 
 int main()
 {
@@ -19,12 +17,12 @@ int main()
     char* line = NULL;
     size_t length = 0;
     ssize_t read;
-    size_t delta = 0;
+    size_t delta = 1;
 
-    int row, column;
-    char direction = UP;
+    int x, y;
+    char d = UP;
 
-    char* matrix[ARRAY_BUFFER];
+    char* m[BUFFER];
 
     filePointer = fopen("input.txt", "r");
 
@@ -32,37 +30,41 @@ int main()
         return EXIT_FAILURE;
     }
 
-    int index = 0;
+    int i = 0;
     while(-1 != (read = getline(&line, &length, filePointer))) {
         if (0 >= length) {
             continue;
         }
 
         char* eol = strstr(line, "\n");
-        size_t len = (eol > line)?eol-line:strlen(line);
-        matrix[index] = calloc(sizeof(char), len);
-        strncat(matrix[index++], line, len);
+        size_t len = (eol > line)?eol-line-1:strlen(line);
+        m[i] = calloc(sizeof(char), len);
+        strncat(m[i++], line, len);
 
         char * start = strstr(line, "^");
-        if (NULL == start) {
-            continue;
+        if (NULL != start) {
+            x = i-1;
+            y = (int)(start-line);
         }
 
-        column = (int)(start-line);
-        row = index-1;
     }
 
-
-    delta++;
-    matrix[row][column] = 'X';
-
+    char o[BUFFER][BUFFER] = {{0}};
     while(1) {
-        if (!makeMove(matrix, &row, &column, index, &direction, &delta)) {
-            goto end;
+        move(&x, &y, d, 1);
+        
+        if (x >= i || 0 > x || 0 > y || y >= strlen(m[x])) {
+            break;
+        }
+
+        if ('#' == m[x][y]) {
+            move(&x, &y, d, -1);
+            d = (LEFT == d) ? UP : d+1;
+        } else if (!o[x][y]) {
+            delta++;
+            o[x][y] = 1;
         }
     }
-
-    end:;
 
     fclose(filePointer);
 
@@ -75,31 +77,12 @@ int main()
     return EXIT_SUCCESS;
 }
 
-char makeMove(char* matrix[], int* row, int* column, int index, char* direction, size_t * delta)
+void move(int * x, int * y, char d, const char v)
 {
-    moveIndexes(row, column, direction, 1);
-
-    if (*row >= index || 0 > *row || 0 > *column || *column >= strlen(matrix[*row])) {
-        return 0;
-    }
-
-    if ('.' == matrix[*row][*column]) {
-        (*delta)++;
-        matrix[*row][*column] = 'X';
-    } else if ('#' == matrix[*row][*column]) {
-        moveIndexes(row, column, direction, -1);
-        *direction = (LEFT == *direction) ? UP : *direction+1;
-    }
-
-    return 1;
-}
-
-char moveIndexes(int * row, int * column, char * direction, const char value) {
-    if (UP == *direction || DOWN == *direction) {
-        *row += (DOWN == *direction) ? value : (-1 * value);
+    if (d % 2 == 0) {
+        *x += (DOWN == d) ? v : (-1 * v);
     } else {
-        *column += (RIGHT == *direction) ? value : (-1 * value);
+        *y += (RIGHT == d) ? v : (-1 * v);
     }
 }
-
 
