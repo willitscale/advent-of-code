@@ -1,6 +1,7 @@
 #pragma once
 
-#define INT_LENGTH 11
+#define INT_LENGTH 10
+#define LONG_LONG_LENGTH 20
 
 typedef struct ll
 {
@@ -11,6 +12,7 @@ typedef struct ll
 LinkedList *addToLinkedList(LinkedList *, void *);
 LinkedList *initLinkedList();
 void freeLinkedList(LinkedList *);
+LinkedList* explodeNumbers(const char *, char *, int *);
 
 LinkedList *initLinkedList()
 {
@@ -72,9 +74,42 @@ LinkedList* explodeNumbers(const char *delimiter, char *string, int *parts) {
 
     while (end > string) {
         int *page = calloc(sizeof(int), 1);
-        char buf[INT_LENGTH];
+        char buf[INT_LENGTH] = {0};
         strncpy(buf, start, end-start > INT_LENGTH ? INT_LENGTH:end-start);
         *page = atoi(buf);
+        data = addToLinkedList(data, page);
+        (*parts)++;
+
+        if (end == start + length) {
+            break;
+        }
+
+        start = end+1;
+        end = strstr(end+1, delimiter);
+            
+        if (NULL == end) {
+            end = start + length;
+        }
+    }
+
+    return head;
+}
+
+LinkedList* explodeLongLong(const char *delimiter, char *string, long long *parts) {
+    char *start = string, *end = strstr(string, delimiter);
+
+    if (NULL == end) {
+        return NULL;
+    }
+
+    long long length = strlen(string);
+    LinkedList *data = initLinkedList(), *head = data;
+
+    while (end > string) {
+        long long *page = calloc(sizeof(long long), 1);
+        char buf[LONG_LONG_LENGTH] = {0};
+        strncpy(buf, start, end-start > LONG_LONG_LENGTH ? LONG_LONG_LENGTH:end-start);
+        *page = atoll(buf);
         data = addToLinkedList(data, page);
         (*parts)++;
 
