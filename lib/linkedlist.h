@@ -27,6 +27,16 @@ LinkedList *addToLinkedList(LinkedList *linkedList, void *data)
   return next;
 }
 
+void *appendLinkedList(LinkedList *linkedList, void *data)
+{
+  LinkedList *next = initLinkedList(), *head = linkedList;
+  while(NULL != head->next) {
+    head = head->next;
+  }
+  head->data = data;
+  head->next = next;
+}
+
 void freeLinkedList(LinkedList *linkedList)
 {
   while (NULL != linkedList)

@@ -19,14 +19,13 @@ int main()
         return EXIT_FAILURE;
     }
 
-    int i = 0;
     while(-1 != (read = getline(&line, &length, filePointer))) {
         if (0 >= length) {
             continue;
         }
 
         long long t, n;
-        LinkedList * ns = explodeLongLong(" ", strstr(line, ":") + 2, &n), * i = ns;
+        LinkedList * i = explodeLongLong(" ", strstr(line, ":") + 2, &n);
         sscanf(line, "%lld", &t);
         delta += exec(t, *(long long*)i->data, i->next);
     }
