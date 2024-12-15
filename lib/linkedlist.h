@@ -27,7 +27,17 @@ LinkedList *addToLinkedList(LinkedList *linkedList, void *data)
   return next;
 }
 
-void *appendLinkedList(LinkedList *linkedList, void *data)
+void *prefixLinkedList(LinkedList *linkedList, void *data)
+{
+  LinkedList *prev = initLinkedList();
+
+  prev->data = data;
+  prev->next = linkedList;
+
+  return prev;
+}
+
+void appendLinkedList(LinkedList *linkedList, void *data)
 {
   LinkedList *next = initLinkedList(), *head = linkedList;
   while(NULL != head->next) {
