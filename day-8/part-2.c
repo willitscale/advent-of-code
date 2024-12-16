@@ -71,10 +71,6 @@ int main()
         }
     }
 
-    for (int a = 0; a < i; a++) {
-        printf("%s\n", m[a]);
-    }
-
     fclose(filePointer);
 
     if (line) {
