@@ -21,16 +21,15 @@ int main()
             continue;
         }
 
-        char direction = line[0];
         x = strtol(&line[1], NULL, 0);
         r = x / 100;
         
         x %= 100;
 
-        if (76 == direction) {
+        if ('L' == line[0]) {
             i = (i - x + 100) % 100;
             r += (i > j && j != 0 || i == 0) ? 1 : 0;
-        } else if (82 == direction) {
+        } else if ('R' == line[0]) {
             i = (i + x) % 100;
             r += (i < j && j != 0 || i == 0) ? 1 : 0;
         } else {
@@ -38,7 +37,6 @@ int main()
         }
 
         delta+= r;
-
         j = i;
 
         line = NULL;

@@ -7,7 +7,7 @@ int main()
     char* line = NULL;
     size_t length = 0;
     ssize_t read;
-    ssize_t i = 50;
+    ssize_t i = 50, x;
     ssize_t delta = 0;
 
     filePointer = fopen("input2.txt", "r");
@@ -21,21 +21,16 @@ int main()
             continue;
         }
 
-        char direction = line[0];
-        long int x = strtol(&line[1], NULL, 0) % 100;
-        if (76 == direction) {
+        x = strtol(&line[1], NULL, 0) % 100;
+        if ('L' == line[0]) {
             i = (i - x + 100);
-        } else if (82 == direction) {
+        } else if ('R' == line[0]) {
             i = (i + x);
         } else {
             continue;
         }
 
-        i %= 100;
-
-        if (i == 0) {
-            delta++;
-        }
+        delta += (i % 100 == 0) ? 1 : 0;
 
         line = NULL;
     }
