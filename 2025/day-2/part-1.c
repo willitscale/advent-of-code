@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h> 
 #include "../../lib/include.h"
+#include "shared.c"
 
 int main()
 {
@@ -43,25 +45,21 @@ int main()
             r1 = strtol(n1, NULL, 10);
             r2 = strtol(n2, NULL, 10);
 
-            for (r1; r1 <= r2; r1++) {
-                char i[255];
-                sprintf(i, "%lu", r1);
-                if (strlen(i) % 2 != 0) {
+            for (; r1 <= r2; r1++) {
+                char s[255];
+                sprintf(s, "%lu", r1);
+
+                size_t len = strlen(s);
+                size_t mod = len/2;
+
+                if (mod * 2 != len) {
                     continue;
                 }
-                size_t d = strlen(i) / 2;
-                char firstHalf[128];
-                char secondHalf[128];
-                strncpy(firstHalf, i, d);
-                strncpy(secondHalf, i + d, d);
-                firstHalf[d] = '\0';
-                secondHalf[d] = '\0';
-                if (strcmp(firstHalf, secondHalf) == 0) {
-                    delta+= r1;
-                }
+
+                delta+=isPattern(s, mod)?r1:0;
             }
 
-            free(r);
+            r = NULL;
             s = e + 1;
         } while (e);
     }
