@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h> 
 #include "../../lib/include.h"
-#include "shared.c"
+#include "shared.h"
 
 int main()
 {
