@@ -40,10 +40,7 @@ int main()
             LinkedList * prev = i;
             for(LinkedList * j = i->next; j != NULL && j->data != NULL; j = j->next) {
                 LPoint * p2 = (LPoint *)j->data;
-                if ((p1->x >= p2->x && p1->x <= p2->y) || 
-                    (p1->y >= p2->x && p1->y <= p2->y) ||
-                    (p2->x >= p1->x && p2->x <= p1->y) ||
-                    (p2->y >= p1->x && p2->y <= p1->y)) {
+                if (p1->x <= p2->y && p2->x <= p1->y) {
                     p1->x = (p1->x < p2->x ? p1->x : p2->x);
                     p1->y = (p1->y > p2->y ? p1->y : p2->y);
                     prev->next = j->next;
