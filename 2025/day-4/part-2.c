@@ -30,7 +30,7 @@ int main()
 
     size_t r;
     do {
-        LinkedList *ll = initLinkedList(), *s = ll;
+        LinkedList *ll = initLinkedList();
     
         for(int i = 0 ; i < h; i++) {
             for(int j = 0 ; j < w; j++) {
@@ -39,20 +39,19 @@ int main()
                     Point *p = calloc(sizeof(Point), 1);
                     p->x = i;
                     p->y = j;
-                    ll = addToLinkedList(ll, p);
+                    appendLinkedList(ll, p);
                 }
             }
         }
         
         r = 0;
-        for(LinkedList *i = s; i != NULL && i->data != NULL; i = i->next) {
+        for(LinkedList *i = ll; i != NULL && i->data != NULL; i = i->next) {
             Point *p = (Point *)i->data;
             g[p->x][p->y] = '.';
             r++;
-            free(p);
         }
 
-        free(ll);
+        freeLinkedList(ll);
     } while (r > 0);
 
     fclose(filePointer);

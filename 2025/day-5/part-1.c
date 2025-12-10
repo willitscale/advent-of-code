@@ -12,17 +12,33 @@ int main()
     ssize_t delta = 0;
     ssize_t read;
 
-    filePointer = fopen("input1.txt", "r");
+    filePointer = fopen("input2.txt", "r");
 
     if (NULL == filePointer) {
         return EXIT_FAILURE;
     }
 
+    LinkedList * r = initLinkedList();
+    char buildingRanges = 1;
     while(-1 != (read = getline(&line, &length, filePointer))) {
         if (0 >= length) {
             continue;
         }
+
+        if (line[0] == 10) {
+            buildingRanges = 0;
+            continue;
+        }
+
+        if (buildingRanges) {
+            LPoint * p = getRange(line, NULL);
+            appendLinkedList(r, p);
+        } else {
+            delta += pointInRanges(r,strtol(line, NULL, 10));
+        }
     }
+
+    freeLinkedList(r);
 
     fclose(filePointer);
 

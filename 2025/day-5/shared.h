@@ -1,18 +1,46 @@
+LPoint * getRange(char *, LinkedList *);
+char pointInRanges(LinkedList *, size_t);
+char pointInRange(LPoint *, size_t);
 
-void buildLargestValue(char * line, char * result, size_t numbers, size_t offset, size_t idx);
-
-void buildLargestValue(char * l, char * r, size_t n, size_t o, size_t idx)
+LPoint * getRange(char * s, LinkedList * ll)
 {
-    if (n == 0) {
-        return;
-    }
-    size_t len = strlen(l);
-    len -= (l[len-1] == '\n' ? 1 : 0);
-    for (size_t i = o; i < len; i++) {
-        if (l[i] > r[idx] && len - i >= n) {
-            r[idx] = l[i];
-            o = i+1;
+        size_t l = strlen(s);
+        char * e = strstr(s, "-");
+        char * o = s+l;
+
+        char * n1 = calloc(sizeof(char), e - s + 1);
+        char * n2 = calloc(sizeof(char), o - e + 1);
+
+        strncpy(n1, s, e - s);
+        strncpy(n2, e + 1, o - e - 1);
+
+        LPoint * p = calloc(sizeof(LPoint), 1);
+
+        p->x = strtol(n1, NULL, 10);
+        p->y = strtol(n2, NULL, 10);
+
+        free(n1);
+        free(n2);
+
+        return p;
+}
+
+char pointInRanges(LinkedList * ll, size_t x)
+{
+    LinkedList * c = ll;
+
+    while (NULL != c && NULL !=c->data) {
+        LPoint * p = (LPoint *)c->data;
+        if (pointInRange(p, x)) {
+            return 1;
         }
+        c = c->next;
     }
-    buildLargestValue(l, r, n - 1, o, idx + 1);
+
+    return 0;
+}
+
+char pointInRange(LPoint * p, size_t x)
+{
+    return (x >= p->x && x <= p->y);
 }
